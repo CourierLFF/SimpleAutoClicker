@@ -12,7 +12,7 @@ class App(customtkinter.CTk):
         self.grid_rowconfigure(0, weight=1)
 
         self.clickButtonFrame = ClickButton(self)
-        self.clickButtonFrame.grid(row=0, column=0, padx=10, pady=(10, 0), sticky="s")
+        self.clickButtonFrame.grid(row=0, column=0, padx=10, pady=(10, 0))
 
 
 app = App()
