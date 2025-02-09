@@ -7,13 +7,13 @@ import pyautogui
 class ClickButton(customtkinter.CTkFrame):
     def __init__(self, master):
         super().__init__(master)
-        self.hotkey = None
+        self.hotkey = keyboard.Key.f9
         self.clicking = False
 
-        self.button = customtkinter.CTkButton(self, text="Start Clicking!", command=self.startClickingButton)
-        self.button.grid(row=0, column=0, padx=10, pady=10)
-        self.button = customtkinter.CTkButton(self, text="Record Hotkey", command=self.recordHotkey)
-        self.button.grid(row=1, column=0, padx=10, pady=10)
+        self.startButton = customtkinter.CTkButton(self, text=f"Start Clicking! ({str(self.hotkey).replace("Key.", "")})", command=self.startClickingButton)
+        self.startButton.grid(row=0, column=0, padx=10, pady=10)
+        self.recordButton = customtkinter.CTkButton(self, text="Record Hotkey", command=self.recordHotkey)
+        self.recordButton.grid(row=1, column=0, padx=10, pady=10)
 
         self.clickListener = keyboard.Listener(on_press=self.hotkeyCheck)
         self.clickListener.start()
