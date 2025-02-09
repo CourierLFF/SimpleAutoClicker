@@ -27,13 +27,21 @@ class ClickButton(customtkinter.CTkFrame):
             time.sleep(0.1)
     
     def recordHotkey(self):
+        threading.Thread(target=self._recordHotkeyThread, daemon=True).start()
+
+    def _recordHotkeyThread(self):
         def on_press(key):
             self.hotkey = key
             print(self.hotkey)
+            self.after(0, self.updateButtonText)
             return False
         
         with keyboard.Listener(on_press=on_press) as recordListener:
             recordListener.join()
+
+    def updateButtonText(self):
+        self.startButton.configure(text=f"Start Clicking! ({str(self.hotkey).replace('Key.', '')})")
+
     
     def hotkeyCheck(self, key):
         if key == self.hotkey:
