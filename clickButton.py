@@ -3,6 +3,7 @@ import time
 import threading
 from pynput import keyboard
 import pyautogui
+import tkinter
 
 class ClickButton(customtkinter.CTkFrame):
     def __init__(self, master):
@@ -15,10 +16,20 @@ class ClickButton(customtkinter.CTkFrame):
         self.startButton.grid(row=0, column=0, padx=10, pady=10)
         self.recordButton = customtkinter.CTkButton(self, text="Record Hotkey", command=self.recordHotkey)
         self.recordButton.grid(row=1, column=0, padx=10, pady=10)
+
+        self.mouseRadioButtonValue = tkinter.IntVar(value=0)
+        self.mouseRadioButtonLeft = customtkinter.CTkRadioButton(self, text="Left", variable= self.mouseRadioButtonValue, value=0)
+        self.mouseRadioButtonLeft.grid(row=0, column=1, padx=10, pady=10)
+        self.mouseRadioButtonMiddle = customtkinter.CTkRadioButton(self, text="Middle", variable= self.mouseRadioButtonValue, value=1)
+        self.mouseRadioButtonMiddle.grid(row=1, column=1, padx=10, pady=10)
+        self.mouseRadioButtonRight = customtkinter.CTkRadioButton(self, text="Right", variable= self.mouseRadioButtonValue, value=2)
+        self.mouseRadioButtonRight.grid(row=2, column=1, padx=10, pady=10)
+
         self.delayLabel = customtkinter.CTkLabel(self, text="Click Delay (Seconds)", fg_color="transparent")
-        self.delayLabel.grid(row=0, column=1, padx=10)
+        self.delayLabel.grid(row=0, column=2, padx=10)
         self.delayEntry = customtkinter.CTkEntry(self, placeholder_text="0.1")
-        self.delayEntry.grid(row=1, column=1, padx=10)
+        self.delayEntry.grid(row=1, column=2, padx=10)
+
         self.clickListener = keyboard.Listener(on_press=self.hotkeyCheck)
         self.clickListener.start()
 
@@ -32,9 +43,15 @@ class ClickButton(customtkinter.CTkFrame):
         except:
             self.clickDelay = 0.1
         while self.clicking:
-            print(f"Click: {counter}")
+            #print(f"Click: {counter}")
+            print(self.mouseRadioButtonValue.get())
             counter += 1
-            pyautogui.click()
+            if self.mouseRadioButtonValue.get() == 0:
+                pyautogui.click(button="left")
+            elif self.mouseRadioButtonValue.get() == 1:
+                pyautogui.click(button="middle")
+            elif self.mouseRadioButtonValue.get() == 2:
+                pyautogui.click(button="right")
             time.sleep(self.clickDelay)
     
     #Setup the hotkey record to run in it's own thread because if I don't it's gonna cause the whole program to freeze when it tries to update the button text.

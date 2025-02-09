@@ -7,7 +7,7 @@ class App(customtkinter.CTk):
         super().__init__()
 
         self.title("SimpleAutoClicker")
-        self.geometry("400x400")
+        self.geometry("600x400")
         self.grid_columnconfigure(0, weight=1)
         self.grid_rowconfigure(0, weight=1)
 
