@@ -15,3 +15,5 @@ pynput 1.7.7
 1. `pip install -r requirements.txt`
 2. `./main.py`
 
+
+## Contributing
